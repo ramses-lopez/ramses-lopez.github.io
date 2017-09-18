@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>test page 2</title>
+    <style media="screen">
+    body{
+        background-color: #f5f5f5;
+    }
+
+    .block{
+        display: flex;
+        height: 150px;
+        width: 150px;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+        flex-direction: row;
+        background-size: contain;
+        position: absolute;
+
+        opacity: 0;
+        background-image: none;
+        left: 0;
+
+    }
+
+    #block1{
+        /*opacity: 1;*/
+        /*left: 0;*/
+    }
+
+    .slideRight {
+        transition-property: left, opacity;
+        /*transition-timing-function: cubic-bezier(0,.87,1,.12);*/
+        left: 90%;
+        opacity: 1;
+    }
+
+    #tool-label{
+        text-transform: lowercase;
+        font-size: 2em;
+        text-align: center;
+        opacity: 1;
+    }
+
+    .stopped{
+        transition-property: opacity;
+        transition-duration: 0.2s;
+        opacity: 0;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="carousel" style="width: 100vw;">
+        <h1 id='tool-label'></h1>
+        <div id="block1" class="block">
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    const images = [
+    {label: 'docker', url: 'images/toolset/docker.png'  }
+    ,{label: 'github', url: 'images/toolset/github.png'  }
+    ,{label: 'javascript', url: 'images/toolset/js.png'  }
+    ,{label: 'node', url: 'images/toolset/node.png'  }
+    ,{label: 'php', url: 'images/toolset/php.png'  }
+    ,{label: 'postgresql', url: 'images/toolset/postgresql.png'  }
+    ,{label: 'ruby', url: 'images/toolset/ruby.jpg'}]
+
+    let currentIndex = -1
+
+    const el = document.querySelector("#block1")
+    const label = document.querySelector("#tool-label")
+
+    window.addEventListener('load', doAnimation)
+    el.addEventListener("transitionend", updateTransition, true)
+
+    function doAnimation() {
+        console.log('doAnimation >')
+        currentIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0
+        el.classList.add('slideRight')
+        el.style.backgroundImage = `url(${images[currentIndex].url})`
+        label.innerText = images[currentIndex].label
+    }
+
+    function updateTransition(event) {
+        console.log('updateTransition >')
+        const el = document.querySelector("#block1")
+        el.classList.add('stopped')
+
+        //when opacity ends, send the block left and change the image
+        //0.3 is the elapsedTime of stopped class
+        if(event.propertyName == 'opacity' && event.elapsedTime == 0.2){
+            el.className = "block";
+            setTimeout(doAnimation, 1000)
+        }
+    }
+    </script>
+</body>
+</html>

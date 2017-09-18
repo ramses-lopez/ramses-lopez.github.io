@@ -1,1 +1,75 @@
-ima page!
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>test page</title>
+	<style media="screen">
+	.block{
+		display: flex;
+		height: 150px;
+		width: 150px;
+		align-items: center;
+		justify-content: center;
+		vertical-align: middle;
+		flex-direction: row;
+		background-size: contain;
+	}
+
+	.animate{
+		position: absolute;
+		/*transition-property: opacity, left;
+		transition-duration: 3s;*/
+	}
+
+	.slideRight {
+		transition-property: background-image, opacity, left;
+		transition-duration: 3s;
+		left: 80%;
+		background-image: url('images/toolset/ruby.jpg');
+		opacity: 0;
+	}
+
+	.slideLeft {
+		transition-property: background-image, opacity, left;
+		transition-duration: 3s;
+		left: 0%;
+		background-image: url('images/toolset/js.png');
+		opacity: 1;
+	}
+
+	/*https://medium.freecodecamp.org/even-more-about-how-flexbox-works-explained-in-big-colorful-animated-gifs-a5a74812b053*/
+	</style>
+</head>
+<body>
+	<div class="carousel" style="width: 100vw;">
+		<!-- <img src="images/toolset/js.png" alt="js"/> -->
+		<button type="button" name="button" onclick="updateTransition()">animate</button>
+		<br>
+		<div id="block1" class="block animate slideRight">
+			<span></span>
+		</div>
+	</div>
+	<script type="text/javascript">
+
+	window.addEventListener('load', runDemo)
+
+	function runDemo() {
+		var el = updateTransition()
+		el.addEventListener("transitionend", updateTransition, true)
+	}
+
+	function updateTransition() {
+		var el = document.querySelector(".slideLeft");
+
+		if (el) {
+			el.className = "block animate slideRight";
+		} else {
+			el = document.querySelector(".slideRight");
+			el.className = "block animate slideLeft";
+		}
+		return el;
+	}
+
+	</script>
+</body>
+</html>
